@@ -1,7 +1,13 @@
 name: Actions Workflow
 
-on:  [push]
-
+on:  
+  schedule:
+  # at minute 1 on every hour
+    - cron: "1 * * * *"    
+  # push 
+  pull-request:
+    types: [closed, assigned, opened, reopened]
+    
 jobs:
   run-guthub-actions:
     runs-on: ubuntu-latest
