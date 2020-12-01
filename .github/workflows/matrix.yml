@@ -1,0 +1,29 @@
+name: Matrix
+on: push
+
+jobs:
+  node-version:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        node_version: [6,8,9]
+        include: 
+          - os: ubuntu-latest
+            node_version: 4
+            is_ubuntu_4: "true"
+        exclude:
+          - os: ubuntu-latest
+          - node_version: 8
+    runs-on: {{ $matrix.os }}
+    env:
+      IS_UBUNTU_4: {{ $matrix.is_ubuntu_4 }}
+    steps:
+      - name: Log node version
+        run: node -v
+      - uses: actions/setup-node@v1
+        with: 
+          node-version: {{ $matrix.node_version }}   
+      - name: Log node version
+        run: |
+          node -v
+          echo $IS_UBUNTU_4          
